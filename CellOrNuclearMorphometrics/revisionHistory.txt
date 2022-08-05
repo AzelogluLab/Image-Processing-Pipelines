@@ -1,0 +1,9 @@
+mainScript_v2, July 28, 2022
+- micronsPerPixel was previously a single value, assuming that all image sets had the same spatial resolution. This was upgraded so that it can now be a vector of values, 
+allowing images of differing resolution to be analyzed in one script.
+- Additionally, the filter for removing segmented objects smaller than the the size in pixels^2 specified by minAreaPixels is now replaced with minAreaMicrons which removes
+objects smaller than this specified size in microns^2.
+- Added solidity, aspect ratio, as a measurement.
+
+August 1, 2022
+- Added mean pixel intensity as a measurement.
