@@ -1,0 +1,44 @@
+2022 April 7, Jonathan Haydak
+Version 2 adds the option of not using cell masks to analyze FA. In othr words,
+the entire image will be analyzed, not a portion of it that resides within a segmented cell.
+-----
+VERSION 3
+2022 April 11, Jonathan Haydak
+Version 3 adds in the ability for images to be processed in parallel with parfor. The code and underlying implementation for this 
+was adapted from my stress fiber segmentation pipeline.
+
+VERSION 3_1
+2022 April 11, Jonathan Haydak
+- Changed some routines in the main script to be a separate function. This was 
+necessary in order to allow parfor to work. Matlab would return an error because it would 
+check for out of index errors in logical loops that could not occur.
+- Changed the file name formatting of segmented images to include both file index and cell index.
+VERSION 3_2
+2022, April 15, Jonathan Haydak
+- Added the option to dilate the masked images. Presumably a good option for imprecise masks.
+- Added the option to segment 3 brightest clusters. Previously was one or two.
+- Changed the plotting behaviour of segmentation. Now the cell perimeter is outlined in red. Previously only the cell mask was used, the rest of the region was set to 0.
+- Changed the way segmentation is done. Now two option. First uses kmeans() and finds the binding box of the cell, removes pixels outside the cell mask, and clusters only pixels within the cell mask. 
+The second uses imsegkmeans() and just clusters all pixels in the bounding box.
+- Added percent coverage of FA
+- Added the option to do watershed segmentation.
+- Added the option to do gaussian smoothing prior to tophat filtering.
+- Made tophat filtering and gaussian smoothing optional. Previously it had to have set values and was always applied.
+2022, April 18
+- Added the option to set the connectivity for the bwareopen. Previously was set to default 8.
+- The script now calculates the major axis length, minor axis length, and aspect ratio.
+- Replaced imoverlay with labeloverlay in the saved segmentations.
+- Added a vector containing the saved segmented file name for each cell.
+- To increase reproducibility of kmeans clustering method, added parameters to be set for the number of replicates and iterations. Previously used 1 replicate and max of 500 iterations.
+- Made all reported metrics available as mean per cell.
+2022, April 20
+- For the segmentation folder, it will create the folder if it does not exist. Previously the folder had to exist or it would result in an error.
+- Added the option to segment as many brightest clusters as possible. Previously could only do up to 3. Changed if else logic to a for loop.
+VERSION 3_3
+2022, April 29, Jonathan Haydak
+- Added the ability to use RGB images as raw file. Previously only allowed grayscale.
+
+
+VERSION 4
+2022, May 2, Jonathan Haydak.
+- Completely changed flow of the program. Focal adhesions are now no longer done within matlab. They are done in cellpose and matlab mearly reads in saved segmentations.
